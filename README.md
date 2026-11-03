@@ -1,31 +1,59 @@
-# Dronefall
+<div align="center">
 
-A low-poly 3D delivery game that runs in the browser. Pick up parcels around the city, fly them to rooftops before the timer runs out, and land on charging pads before your battery dies. The wind gets stronger with every delivery.
+<img src="public/favicon.svg" width="96" alt="Dronefall logo" />
 
-Built with **React Three Fiber** (Three.js), **TypeScript**, **Zustand** and **Vite**. All graphics and sounds are generated in code, so there are no asset files to download.
+# 🚁 Dronefall
 
-## How to play
+**Grab the parcel. Beat the clock. Don't run out of battery.**
+
+A low-poly 3D drone delivery game that runs right in your browser.
+
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-R3F-000000?logo=threedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
+![Zustand](https://img.shields.io/badge/state-Zustand-433E38)
+
+</div>
+
+---
+
+## ✨ Features
+
+- 🏙️ **Procedural city**: seeded buildings, parks, pickup points and charging pads
+- 📦 **Timed deliveries**: fly parcels to rooftops before the clock runs out
+- 🔋 **Battery management**: land on chargers before you drop out of the sky
+- 🌬️ **Rising wind**: every delivery makes the wind stronger
+- 🔥 **Streaks and time bonuses** for fast, back-to-back deliveries
+- 📱 **Touch controls** on phones and tablets
+- 🎨 **No asset files**: every model and sound is generated in code
+
+## 🎮 How to play
 
 | Key | Action |
+| :---: | --- |
+| <kbd>W</kbd> / <kbd>S</kbd> | Fly forward / back |
+| <kbd>A</kbd> / <kbd>D</kbd> | Turn left / right |
+| <kbd>Q</kbd> / <kbd>E</kbd> | Slide sideways |
+| <kbd>Space</kbd> | Climb |
+| <kbd>Shift</kbd> / <kbd>C</kbd> | Descend |
+| <kbd>V</kbd> | Switch camera (close / far) |
+| <kbd>P</kbd> / <kbd>Esc</kbd> | Pause |
+| <kbd>M</kbd> | Mute |
+
+> 📱 On phones and tablets, on-screen buttons appear instead.
+
+### 🧭 Reading the map
+
+| Marker | Meaning |
 | --- | --- |
-| W / S | Fly forward / back |
-| A / D | Turn left / right |
-| Q / E | Slide sideways |
-| Space | Climb |
-| Shift / C | Descend |
-| V | Switch camera (close / far) |
-| P / Esc | Pause |
-| M | Mute |
+| 🟠 **Amber beam** | Hover low over it to pick up a parcel |
+| 🔵 **Blue beam** | Drop-off: hover just above that rooftop |
+| 🟢 **Green ⚡ rooftops** and the orange HQ pad | Land to recharge |
 
-On phones and tablets, on-screen buttons appear instead.
+> ⚠️ Crashes damage the hull. If the **hull** or the **battery** hits 0, the run is over.
 
-- **Amber beam**: hover low over it to pick up a parcel.
-- **Blue beam**: fly the parcel there and hover just above the rooftop.
-- **Green ⚡ rooftops** (and the orange HQ pad): land to recharge.
-- Fast deliveries earn time bonuses. Back-to-back deliveries build a streak.
-- Crashes damage the hull. If the hull or the battery hits 0, the run is over.
-
-## Running locally
+## 🚀 Getting started
 
 ```bash
 npm install
@@ -33,7 +61,7 @@ npm run dev      # http://localhost:5173
 npm run build    # production build in dist/
 ```
 
-## Project structure
+## 🗂️ Project structure
 
 ```
 src/
@@ -48,10 +76,18 @@ src/
 └── ui/               # HUD with minimap, menus, touch controls
 ```
 
-## Ideas for next steps
+## 🛣️ Roadmap
 
-- Upgrades between runs (bigger battery, faster motors, stronger frame)
-- Day/night cycle with lit windows at night
-- Fragile parcels that break on hard landings
-- Online leaderboard
-- Swap the procedural drone for a Blender / Kenney model (`.glb`)
+- [ ] Upgrades between runs (bigger battery, faster motors, stronger frame)
+- [ ] Day/night cycle with lit windows at night
+- [ ] Fragile parcels that break on hard landings
+- [ ] Online leaderboard
+- [ ] Swap the procedural drone for a Blender / Kenney model (`.glb`)
+
+---
+
+<div align="center">
+
+Made with ❤️ by [Kritika Khatri](https://github.com/kritikhatri)
+
+</div>
