@@ -1,4 +1,42 @@
-import { useStore } from '../game/state';
+import { MAX_LEVEL, UPGRADE_COSTS, UPGRADES, useStore } from '../game/state';
+
+function Hangar() {
+  const credits = useStore((s) => s.credits);
+  const levels = useStore((s) => s.levels);
+  const buy = useStore((s) => s.buy);
+  return (
+    <div className="hangar">
+      <div className="hangar-head">
+        <span>Hangar upgrades</span>
+        <b>🪙 {credits}</b>
+      </div>
+      {UPGRADES.map((u) => {
+        const lvl = levels[u.id];
+        const maxed = lvl >= MAX_LEVEL;
+        const cost = UPGRADE_COSTS[lvl];
+        return (
+          <div className="upgrade" key={u.id}>
+            <span className="u-icon">{u.icon}</span>
+            <div className="u-info">
+              <div>
+                {u.name}{' '}
+                <span className="pips">
+                  {Array.from({ length: MAX_LEVEL }, (_, i) => (
+                    <i key={i} className={i < lvl ? 'on' : ''} />
+                  ))}
+                </span>
+              </div>
+              <small>{u.desc}</small>
+            </div>
+            <button className="u-buy" disabled={maxed || credits < cost} onClick={() => buy(u.id)}>
+              {maxed ? 'MAX' : `🪙 ${cost}`}
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 const CONTROLS: [string, string][] = [
   ['W / S', 'Fly forward / back'],
@@ -43,9 +81,11 @@ export function Menu({ onStart }: { onStart: () => void }) {
           <li>
             <i className="dot charge" /> Land on <b>green ⚡</b> rooftops (or HQ) to recharge
           </li>
+          <li>🥚 Fragile parcels pay +50% but break if you crash</li>
           <li>🌬 Wind gets stronger the more you deliver</li>
         </ul>
         <Controls />
+        <Hangar />
         <button className="btn" onClick={onStart} autoFocus>
           Start flying
         </button>
@@ -95,6 +135,8 @@ export function GameOver({ onRestart, onMenu }: { onRestart: () => void; onMenu:
           </div>
         </div>
         {result.newBest && <div className="newbest">New best score!</div>}
+        <div className="earned">+🪙 {result.earned} credits earned</div>
+        <Hangar />
         <button className="btn" onClick={onRestart}>
           Fly again
         </button>

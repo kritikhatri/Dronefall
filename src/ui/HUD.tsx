@@ -85,7 +85,8 @@ export function HUD() {
           : { x: o.pickup.x, y: 0, z: o.pickup.z };
         const dist = Math.hypot(tgt.x - game.pos.x, tgt.z - game.pos.z);
         const dy = tgt.y - game.pos.y;
-        step.current!.textContent = game.carrying ? 'STEP 2 / 2 · DELIVER' : 'STEP 1 / 2 · PICK UP';
+        step.current!.textContent =
+          (game.carrying ? 'STEP 2 / 2 · DELIVER' : 'STEP 1 / 2 · PICK UP') + (o.fragile ? ' · 🥚 FRAGILE' : '');
         step.current!.className = game.carrying ? 'step drop' : 'step pickup';
         place.current!.textContent = game.carrying
           ? `${o.drop.address} — rooftop`

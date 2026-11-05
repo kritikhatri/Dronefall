@@ -9,7 +9,7 @@ import { WindStreaks } from './components/WindStreaks';
 import { initInput } from './game/input';
 import { newOrder } from './game/logic';
 import { sfx } from './game/sfx';
-import { game, resetGame, useStore } from './game/state';
+import { applyPerks, game, resetGame, useStore } from './game/state';
 import { HUD, Toasts } from './ui/HUD';
 import { GameOver, Menu, Paused } from './ui/Screens';
 import { TouchControls } from './ui/TouchControls';
@@ -52,6 +52,7 @@ export default function App() {
 
   const start = () => {
     resetGame();
+    applyPerks(useStore.getState().levels);
     newOrder();
     sfx.start();
     setPhase('playing');

@@ -256,6 +256,8 @@ label {
 }
 .card {
   width: min(480px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
   background: rgba(15, 20, 28, 0.78);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -455,4 +457,79 @@ kbd {
   .logo {
     font-size: 42px;
   }
+}
+
+/* ---------- hangar / upgrades ---------- */
+.hangar {
+  margin: 4px 0 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  text-align: left;
+}
+.hangar-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+.hangar-head b {
+  color: #ffd23f;
+  letter-spacing: 0;
+}
+.upgrade {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+}
+.u-icon {
+  font-size: 20px;
+}
+.u-info {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 700;
+}
+.u-info small {
+  display: block;
+  font-weight: 400;
+  font-size: 11px;
+  opacity: 0.7;
+}
+.pips i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+.pips i.on {
+  background: #ff6b35;
+}
+.u-buy {
+  min-width: 70px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  background: #ffd23f;
+  color: #222;
+  cursor: pointer;
+}
+.u-buy:disabled {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: default;
+}
+.earned {
+  color: #ffd23f;
+  font-weight: 700;
+  margin-bottom: 4px;
 }

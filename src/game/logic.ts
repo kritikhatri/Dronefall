@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 import * as C from './config';
 import { getCity, type Building } from './city';
 import { readControls } from './input';
-import { game, useStore, type Order } from './state';
+import { game, perks, useStore, type Order } from './state';
 import { sfx } from './sfx';
 
 const city = getCity();
@@ -30,7 +30,9 @@ export function newOrder() {
   // Orders get a little tighter as you deliver more
   const squeeze = Math.max(0.7, 1 - game.deliveries * 0.025);
   const timeLimit = Math.round(((leg1 + leg2) / C.ORDER_SPEED + C.ORDER_GRACE) * squeeze);
-  const order: Order = { pickup, drop, timeLimit, timeLeft: timeLimit };
+  // From the 2nd delivery on, some parcels are fragile: they pay more but break on any crash
+  const fragile = game.deliveries >= 1 && Math.random() < 0.3;
+  const order: Order = { pickup, drop, timeLimit, timeLeft: timeLimit, fragile };
   game.order = order;
   game.carrying = false;
   game.objProgress = 0;
@@ -76,7 +78,7 @@ function fly(dt: number, ctl: ReturnType<typeof readControls>) {
 
   const sin = Math.sin(game.yaw);
   const cos = Math.cos(game.yaw);
-  const accel = C.ACCEL * (game.carrying ? C.CARRY_PENALTY : 1);
+  const accel = C.ACCEL * perks.thrust * (game.carrying ? C.CARRY_PENALTY : 1);
 
   // forward is -Z when yaw = 0
   const ax = (-sin * ctl.forward + cos * ctl.strafe) * accel;
@@ -133,12 +135,19 @@ function fly(dt: number, ctl: ReturnType<typeof readControls>) {
 
 function hit(speed: number) {
   if (speed < C.CRASH_SPEED) return;
-  const dmg = (speed - C.CRASH_SPEED) * C.CRASH_DAMAGE;
+  const dmg = (speed - C.CRASH_SPEED) * C.CRASH_DAMAGE * perks.damage;
   game.hull -= dmg;
   game.shake = Math.min(1, 0.3 + dmg / 25);
   game.streak = 0;
   sfx.crash(speed);
   toast(`Crash! −${Math.round(dmg)}% hull`, 'bad');
+  if (game.carrying && game.order?.fragile) {
+    game.failed += 1;
+    game.score = Math.max(0, game.score - 50);
+    sfx.fail();
+    toast('Fragile parcel smashed −50', 'bad');
+    newOrder();
+  }
 }
 
 function collide() {
@@ -213,7 +222,7 @@ function updateBattery(dt: number, ctl: ReturnType<typeof readControls>) {
   const thrust = Math.min(1, Math.abs(ctl.forward) + Math.abs(ctl.strafe) * 0.5);
   let drain = C.DRAIN_BASE + thrust * C.DRAIN_THRUST + Math.max(0, ctl.lift) * C.DRAIN_CLIMB;
   if (game.carrying) drain += C.DRAIN_CARRY;
-  game.battery -= drain * dt;
+  game.battery -= drain * perks.drain * dt;
 
   // Charging: rest on the depot pad or a charger rooftop
   const speed = game.vel.length();
@@ -280,12 +289,12 @@ function updateOrder(dt: number) {
     if (!game.carrying) {
       game.carrying = true;
       sfx.pickup();
-      toast(`Picked up from ${o.pickup.name}`, 'info');
+      toast(o.fragile ? `Fragile parcel! Don't crash 🥚 (+50% pay)` : `Picked up from ${o.pickup.name}`, 'info');
     } else {
       game.streak += 1;
       const timeBonus = Math.round(o.timeLeft * 5);
       const streakBonus = (game.streak - 1) * 25;
-      const pts = 100 + timeBonus + streakBonus;
+      const pts = Math.round((100 + timeBonus + streakBonus) * (o.fragile ? 1.5 : 1));
       game.score += pts;
       game.deliveries += 1;
       game.battery = Math.min(100, game.battery + C.DELIVERY_BATTERY_BONUS);

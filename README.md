@@ -25,6 +25,8 @@ A low-poly 3D drone delivery game that runs right in your browser.
 - 🔋 **Battery management**: land on chargers before you drop out of the sky
 - 🌬️ **Rising wind**: every delivery makes the wind stronger
 - 🔥 **Streaks and time bonuses** for fast, back-to-back deliveries
+- 🥚 **Fragile parcels** pay +50%, but break if you crash
+- 🛠️ **Hangar upgrades**: spend credits on battery, motors and frame between runs
 - 📱 **Touch controls** on phones and tablets
 - 🎨 **No asset files**: every model and sound is generated in code
 
@@ -78,9 +80,9 @@ src/
 
 ## 🛣️ Roadmap
 
-- [ ] Upgrades between runs (bigger battery, faster motors, stronger frame)
+- [x] Upgrades between runs (bigger battery, faster motors, stronger frame)
 - [ ] Day/night cycle with lit windows at night
-- [ ] Fragile parcels that break on hard landings
+- [x] Fragile parcels that break on hard landings
 - [ ] Online leaderboard
 - [ ] Swap the procedural drone for a Blender / Kenney model (`.glb`)
 
